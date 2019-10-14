@@ -1,14 +1,30 @@
-<h2>
-  <label for="zones_field">Zones (<%= Enum.count(@zones) %>)</label>
-  <select id="zones_field">
-      <option value="">
-        Choose a Zone
-      </option>
+<div class="row">
+  <div class="col-sm-6 col">
+    <h4>
+      <label for="zones_field">Zones (<%= Enum.count(@zones) %>)</label>
+      <form phx-change="validate">
+        <select id="zones_field" name="current">
+          <%= menu_option("Choose a Zone", "", @current_zone) %>
 
-    <%= for z <- @zones do %>
-      <option value="<%= z.uuid %>">
-        <%= z.name %>
-      </option>
+          <%= for z <- @zones do %>
+            <%= menu_option(z.name, z.uuid, @current_zone) %>
+          <% end %>
+        </select>
+      </form>
+    </h4>
+  </div>
+  <div class="col-sm-6 col">
+    <%= for p <- Sonex.players_in_zone(@current_zone) do %>
+      <div class="card">
+        <div class="card-body">
+          <h4>
+            <%= p.name %>
+          </h4>
+            <%= inspect(p) %>
+        </div>
+      </div>
     <% end %>
-  </select>
-</h2>
+  </div>
+
+
+

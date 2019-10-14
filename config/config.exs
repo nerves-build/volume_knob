@@ -9,6 +9,11 @@ use Mix.Config
 
 config :sonex, []
 
+config :volume_knob, VolumeState,
+  default: %{
+    current_zone: ""
+  }
+
 # Configures the endpoint
 config :volume_knob, VolumeKnobWeb.Endpoint,
   url: [host: "localhost"],
