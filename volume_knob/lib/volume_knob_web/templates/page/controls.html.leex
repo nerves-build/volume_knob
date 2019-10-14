@@ -1,0 +1,29 @@
+<div class="level">
+  <div class="level-left is-narrow is-hidden-mobile">
+    <img src="<%= Routes.static_path(@socket, "/images/logo.png") %>" alt="Logo" />
+  </div>
+  <div class="level-left sm_fixed logo_div">
+  </div>
+  <div class="level-item">
+    <div class="level column is-full is-mobile">
+      <div class="level-left logo_lev">
+        <%= draw_btn_image(@socket, @current_player) %>
+      </div>
+      <div class="level-item">
+        <div class="top_box">
+          <form phx-change="validate">
+            <%= draw_menu(@current_device, @devices) %>
+            <div class="control">
+              <%= draw_vol_slider(@current_player) %>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="level-right sm_fixed">
+    <%= for p <- @players do %>
+      <%= render(VolumeKnobWeb.PageView, "device.html", p: p) %>
+    <% end %>
+  </div>
+</div>

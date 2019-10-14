@@ -1,19 +1,26 @@
-# VolumeKnob
+# volume_knob
 
-To start your Phoenix server:
+This is the companion source code for the blog post here:
+https://nerves.build/posts/VolumeKnob
 
-  * Install dependencies with `mix deps.get`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## Running in host mode
+To get the VolumeKnob running initially run it in host mode
+```
+cd volume_knob
+mix deps.get
+mix phx.server
+```
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+This should start the system and provide you with the UI at <code>http://localhost:4000</code>. This should interact with your Sonos system once it's logged into the local wifi network.
 
-## Learn more
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+## Creating firmware
+Once you are ready to burn the firware to an SD card run this:
+```
+cd vknob_fw
+mix deps.get
+mix firmware.burn
+```
+
+Report any issues you have with this software on the Issues here and it will be addressed.
