@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-6 col">
-    <h4>
+    <h6>
       <label for="zones_field">Zones (<%= Enum.count(@zones) %>)</label>
       <form phx-change="validate">
         <select id="zones_field" name="current">
@@ -11,16 +11,21 @@
           <% end %>
         </select>
       </form>
-    </h4>
+    </h6>
   </div>
   <div class="col-sm-6 col">
     <%= for p <- Sonex.players_in_zone(@current_zone) do %>
       <div class="card">
         <div class="card-body">
-          <h4>
+          <h5 class="card-title">
             <%= p.name %>
-          </h4>
-            <%= inspect(p) %>
+          </h5>
+          <h6 class="card-subtitle">
+            <%= p.ip %>
+          </h6>
+          <p class="card-text">
+            <%= inspect(p.uuid) %>
+          </p>
         </div>
       </div>
     <% end %>
