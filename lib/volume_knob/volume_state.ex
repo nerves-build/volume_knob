@@ -9,7 +9,7 @@ defmodule VolumeKnob.VolumeState do
   @file_location Application.get_env(:volume_knob, VolumeState)[:state_location]
 
   def start_link(_vars) do
-    Logger.debug "start_link runtime state"
+    Logger.debug("start_link runtime state")
     GenServer.start_link(__MODULE__, initial_data(), name: __MODULE__)
   end
 
@@ -22,7 +22,7 @@ defmodule VolumeKnob.VolumeState do
   end
 
   def init(data) do
-    Logger.debug "starting runtime state"
+    Logger.debug("starting runtime state")
     {:ok, data}
   end
 
@@ -38,9 +38,9 @@ defmodule VolumeKnob.VolumeState do
   end
 
   def terminate(reason, _state) do
-    Logger.error "exiting RuntimeConfig.State due to #{inspect(reason)}"
+    Logger.error("exiting RuntimeConfig.State due to #{inspect(reason)}")
   end
-  
+
   defp flush(state) do
     File.write!(@file_location, :erlang.term_to_binary(state))
   end
@@ -48,20 +48,22 @@ defmodule VolumeKnob.VolumeState do
   defp initial_data do
     defs = Application.get_env(:volume_knob, VolumeState)[:default]
 
-    defs = if File.exists?(@file_location) do
-      existing = 
-        @file_location
-        |> File.read!()
-        |> :erlang.binary_to_term()
-        |> Map.from_struct()
+    defs =
+      if File.exists?(@file_location) do
+        existing =
+          @file_location
+          |> File.read!()
+          |> :erlang.binary_to_term()
+          |> Map.from_struct()
 
-      Map.merge(defs, existing)
-    else
-      File.open!(@file_location, [:read, :write])
-      File.write!(@file_location, :erlang.term_to_binary(defs))
+        Map.merge(defs, existing)
+      else
+        File.open!(@file_location, [:read, :write])
+        File.write!(@file_location, :erlang.term_to_binary(defs))
 
-      defs
-    end
+        defs
+      end
+
     struct(State, defs)
   end
 end

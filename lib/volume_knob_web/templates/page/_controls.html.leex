@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-sm-6 col">
+  <div class="col-sm-8 col">
     <h6>
       <label for="zones_field">Zones (<%= Enum.count(@zones) %>)</label>
       <form phx-change="validate">
@@ -13,23 +13,42 @@
       </form>
     </h6>
   </div>
-  <div class="col-sm-6 col">
-    <%= for p <- Sonex.players_in_zone(@current_zone) do %>
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">
-            <%= p.name %>
-          </h5>
-          <h6 class="card-subtitle">
-            <%= p.ip %>
-          </h6>
-          <p class="card-text">
-            <%= inspect(p.uuid) %>
-          </p>
-        </div>
+  <div class="col-sm-4 col">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">
+          <%= @current_coord.name %>
+        </h4>
+        <h6 class="card-subtitle">
+          <%= @current_coord.ip %>
+        </h6>
+        <%= for p <- @players do %>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= p.name %>
+              </h5>
+              <h6 class="card-subtitle">
+                <%= p.ip %>
+              </h6>
+              <p class="card-text">
+                <%= inspect(p.player_state.current_state) %>
+                <%= inspect(p.player_state.current_mode) %>
+                <%= inspect(p.player_state.volume) %>
+                <%= inspect(p.player_state.track_info) %>
+              </p>
+            </div>
+          </div>
+        <% end %>
       </div>
-    <% end %>
+    </div>
   </div>
-
-
-
+</div>
+<div class="row">
+  <div class="col-sm-2 col">
+    <%= draw_btn_image(@socket, @current_coord) %>
+  </div>
+  <div class="col-sm-6 col">
+    <%= draw_vol_slider(@socket, @current_coord) %>
+  </div>
+</div>

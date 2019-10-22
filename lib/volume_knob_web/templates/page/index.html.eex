@@ -11,6 +11,11 @@
     <img src="<%= Routes.static_path(@conn, "/images/logo.png") %>" alt="Logo" />
   </div>
   <div class="col-sm-9 col">
-    <%= Phoenix.LiveView.live_render(@conn, VolumeKnobWeb.ControlsLive, session: %{zones: @zones, current_zone: @current_zone}) %>
+    <%= Phoenix.LiveView.live_render(@conn, VolumeKnobWeb.ControlsLive, session: %{
+      zones: @zones,
+      current_zone: @current_zone,
+      current_coord: @current_coord,
+      players: @players
+    }) %>
   </div>
 </div>
