@@ -30,7 +30,6 @@ defmodule VolumeKnobWeb.ControlsLive do
 
   def handle_event("play-device", %{"uuid" => uuid}, socket) do
     Sonex.get_player(uuid)
-    |> IO.inspect(label: "in handle-event")
     |> Sonex.start_player()
 
      {:noreply, socket}
