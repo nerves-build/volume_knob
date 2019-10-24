@@ -9,16 +9,38 @@ defmodule VolumeKnobWeb.ControlsLive do
     Phoenix.View.render(VolumeKnobWeb.PageView, "_controls.html", assigns)
   end
 
-  def mount(%{zones: zones, current_zone: current_zone}, socket) do
+  def mount(%{}, socket) do
     {:ok, pid} = Registry.register(Sonex, "devices", [])
 
     {:ok, decorate_socket(socket)}
   end
 
   def handle_event("validate", %{"current" => current}, socket) do
-    VolumeState.set_current_zone(current)
+    VolumeState.set_current_device(current)
 
     {:noreply, decorate_socket(socket)}
+  end
+
+  def handle_event("pause-device", %{"uuid" => uuid}, socket) do
+    Sonex.get_player(uuid)
+    |> Sonex.stop_player()
+
+     {:noreply, socket}
+  end
+
+  def handle_event("play-device", %{"uuid" => uuid}, socket) do
+    Sonex.get_player(uuid)
+    |> IO.inspect(label: "in handle-event")
+    |> Sonex.start_player()
+
+     {:noreply, socket}
+  end
+
+  def handle_event("volume-slider", %{"uuid" => uuid, "value" => value}, socket) do
+    Sonex.get_player(uuid)
+    |> Sonex.set_volume(value)
+
+     {:noreply, socket}
   end
 
   def handle_info({:discovered, _new_device}, socket) do
@@ -30,14 +52,24 @@ defmodule VolumeKnobWeb.ControlsLive do
   end
 
   defp decorate_socket(socket) do
-    current_zone = VolumeState.get_current_zone()
-    %{coord: coord, player: player} = Sonex.get_grouped_players_in_zone(current_zone)
+    current_device = VolumeState.get_current_device()
+
+    {players, current_player} = case current_device do
+      "" ->
+        {[], nil}
+      uuid ->
+        plyr = %{coordinator_uuid: coordinator_uuid} = Sonex.get_player(uuid)
+        {
+          Sonex.players_in_zone(coordinator_uuid),
+          plyr
+        }
+    end
 
     assign(socket,
-      zones: Sonex.get_zones(),
-      current_zone: current_zone,
-      current_coord: coord,
-      players: player
+      devices: Sonex.get_devices(),
+      current_device: current_device,
+      current_player: current_player,
+      players: players
     )
   end
 end

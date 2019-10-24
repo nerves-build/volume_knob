@@ -1,6 +1,6 @@
 defmodule VolumeKnob.VolumeState do
   defmodule State do
-    defstruct current_zone: ""
+    defstruct current_zone: "", current_device: ""
   end
 
   use GenServer
@@ -21,6 +21,14 @@ defmodule VolumeKnob.VolumeState do
     GenServer.call(__MODULE__, :get_current_zone)
   end
 
+  def set_current_device(device_uuid) do
+    GenServer.call(__MODULE__, {:set_current_device, device_uuid})
+  end
+
+  def get_current_device() do
+    GenServer.call(__MODULE__, :get_current_device)
+  end
+
   def init(data) do
     Logger.debug("starting runtime state")
     {:ok, data}
@@ -32,6 +40,17 @@ defmodule VolumeKnob.VolumeState do
 
   def handle_call({:set_current_zone, zone_uuid}, _from, state) do
     new_data = %{state | current_zone: zone_uuid}
+
+    flush(new_data)
+    {:reply, new_data, new_data}
+  end
+
+  def handle_call(:get_current_device, _from, %{current_device: current_device} = state) do
+    {:reply, current_device, state}
+  end
+
+  def handle_call({:set_current_device, device_uuid}, _from, state) do
+    new_data = %{state | current_device: device_uuid}
 
     flush(new_data)
     {:reply, new_data, new_data}

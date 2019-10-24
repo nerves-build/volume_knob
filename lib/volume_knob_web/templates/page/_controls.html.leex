@@ -1,54 +1,35 @@
 <div class="row">
-  <div class="col-sm-8 col">
-    <h6>
-      <label for="zones_field">Zones (<%= Enum.count(@zones) %>)</label>
-      <form phx-change="validate">
-        <select id="zones_field" name="current">
-          <%= menu_option("Choose a Zone", "", @current_zone) %>
-
-          <%= for z <- @zones do %>
-            <%= menu_option(z.name, z.uuid, @current_zone) %>
-          <% end %>
-        </select>
-      </form>
-    </h6>
-  </div>
-  <div class="col-sm-4 col">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">
-          <%= @current_coord.name %>
-        </h4>
-        <h6 class="card-subtitle">
-          <%= @current_coord.ip %>
-        </h6>
-        <%= for p <- @players do %>
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">
-                <%= p.name %>
-              </h5>
-              <h6 class="card-subtitle">
-                <%= p.ip %>
-              </h6>
-              <p class="card-text">
-                <%= inspect(p.player_state.current_state) %>
-                <%= inspect(p.player_state.current_mode) %>
-                <%= inspect(p.player_state.volume) %>
-                <%= inspect(p.player_state.track_info) %>
-              </p>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  </div>
+  &nbsp;
 </div>
 <div class="row">
-  <div class="col-sm-2 col">
-    <%= draw_btn_image(@socket, @current_coord) %>
+  <div class="col-sm-8 col">
+    <div class="row">
+        <form phx-change="validate">
+          <div class="form-group">
+            <select id="zones_field" class="form-control" name="current">
+              <%= menu_option("Choose a Device", "", @current_player) %>
+
+              <%= for z <- @devices do %>
+                <%= menu_option(z.name, z.uuid, @current_device) %>
+              <% end %>
+            </select>
+          </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 col">
+          <%= draw_btn_image(@socket, @current_player) %>
+        </div>
+        <div class="col-sm-10 col">
+          <div class="form-group">
+            <%= draw_vol_slider(@socket, @current_player) %>
+          </div>
+        </div>
+    </div>
   </div>
-  <div class="col-sm-6 col">
-    <%= draw_vol_slider(@socket, @current_coord) %>
+  <div class="col-sm-4 col">
+    <%= for p <- @players do %>
+      <%= draw_device(@socket, p) %>
+    <% end %>
   </div>
 </div>

@@ -12,9 +12,9 @@
   </div>
   <div class="col-sm-9 col">
     <%= Phoenix.LiveView.live_render(@conn, VolumeKnobWeb.ControlsLive, session: %{
-      zones: @zones,
-      current_zone: @current_zone,
-      current_coord: @current_coord,
+      devices: @devices,
+      current_device: @current_device,
+      current_player: @current_player,
       players: @players
     }) %>
   </div>

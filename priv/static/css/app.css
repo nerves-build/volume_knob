@@ -10108,3 +10108,24 @@ a.text-dark:hover, a.text-dark:focus {
 .center {
   text-align: center;
 }
+
+.ip_font {
+  font-size: 10px;
+  text-align: right;
+  font-style: oblique;
+}
+
+.action_font {
+  font-size: 12px;
+  text-align: left;
+}
+
+.card-body {
+  padding: .25rem;
+}
+.card {
+  margin: .5rem;
+}
+.card-header {
+  padding: 0.25rem 0.5rem;
+}
