@@ -1,13 +1,10 @@
 <div class="row">
-  &nbsp;
-</div>
-<div class="row">
   <div class="col-sm-8 col">
     <div class="row">
         <form phx-change="validate">
           <div class="form-group">
             <select id="zones_field" class="form-control" name="current">
-              <%= menu_option("Choose a Device", "", @current_player) %>
+              <%= menu_option("Choose a Device", "", @current_device) %>
 
               <%= for z <- @devices do %>
                 <%= menu_option(z.name, z.uuid, @current_device) %>
@@ -23,6 +20,7 @@
         <div class="col-sm-10 col">
           <div class="form-group">
             <%= draw_vol_slider(@current_player) %>
+            <%= draw_track_state(@current_player) %>
           </div>
         </div>
     </div>

@@ -7,6 +7,13 @@
   text-align: center;
 }
 
+select.form-control {
+  width: 200px;
+}
+.bborders {
+  margin: 1.5rem;
+}
+
 .ip_font {
   font-size: 10px;
   text-align: right;
