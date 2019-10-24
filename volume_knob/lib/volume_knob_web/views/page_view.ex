@@ -1,7 +1,7 @@
 defmodule VolumeKnobWeb.PageView do
   use VolumeKnobWeb, :view
 
-  def draw_device(socket, %{uuid: uuid, coordinator_uuid: coordinator_uuid, name: name, ip: ip} = player) do
+  def draw_device(%{uuid: uuid, coordinator_uuid: coordinator_uuid, name: name, ip: ip} = player) do
     ~E"""
       <div class="card">
         <%= if uuid == coordinator_uuid do %>
@@ -47,8 +47,8 @@ defmodule VolumeKnobWeb.PageView do
     """
   end
 
-  def draw_vol_slider(socket, nil), do: ""
-  def draw_vol_slider(socket, %{uuid: uuid, player_state: %{volume: %{l: "100", m: volume, r: "100"}}}) do
+  def draw_vol_slider(nil), do: ""
+  def draw_vol_slider(%{uuid: uuid, player_state: %{volume: %{l: "100", m: volume, r: "100"}}}) do
     ~E"""
       <input type="range" min="0" max="100" value="<%= volume %>" class="form-control-range slider" phx-click="volume-slider" phx-value-uuid="<%= uuid %>" WIDTH=100%>
     """
@@ -62,7 +62,7 @@ defmodule VolumeKnobWeb.PageView do
     "V: #{volume}"
   end
 
-  def draw_btn_sm_image(socket, ""), do: ""
+  def draw_btn_sm_image(_socket, ""), do: ""
 
   def draw_btn_sm_image(socket, %{player_state: %{current_state: "PLAYING"}}) do
     ~E"""
@@ -82,7 +82,7 @@ defmodule VolumeKnobWeb.PageView do
     """
   end
 
-  def draw_btn_image(socket, nil), do: ""
+  def draw_btn_image(_socket, nil), do: ""
   def draw_btn_image(socket, %{uuid: uuid, player_state: %{current_state: "PLAYING"}}) do
     ~E"""
       <img src=<%= Routes.static_path(socket, "/images/pause.png") %> WIDTH=64px HEIGHT=64px phx-click="pause-device" phx-value-uuid="<%= uuid %>">

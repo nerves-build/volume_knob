@@ -10,7 +10,7 @@ defmodule VolumeKnobWeb.ControlsLive do
   end
 
   def mount(%{}, socket) do
-    {:ok, pid} = Registry.register(Sonex, "devices", [])
+    {:ok, _pid} = Registry.register(Sonex, "devices", [])
 
     {:ok, decorate_socket(socket)}
   end
