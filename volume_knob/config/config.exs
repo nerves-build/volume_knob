@@ -7,8 +7,6 @@
 # General application configuration
 use Mix.Config
 
-config :sonex, []
-
 config :volume_knob, VolumeState,
   default: %{
     current_zone: ""
@@ -35,3 +33,9 @@ config :phoenix, :json_library, Jason
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
+
+if Mix.target() != :host do
+  import_config "target.exs"
+else
+  import_config "host.exs"
+end

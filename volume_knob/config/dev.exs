@@ -21,8 +21,6 @@ config :volume_knob, VolumeKnobWeb.Endpoint,
     ]
   ]
 
-config :volume_knob, VolumeState, state_location: "/Users/steve/root/volume_knob.config.term"
-
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

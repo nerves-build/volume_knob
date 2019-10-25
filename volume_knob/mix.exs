@@ -1,6 +1,8 @@
 defmodule VolumeKnob.MixProject do
   use Mix.Project
 
+  @all_targets [:rpi, :rpi0, :rpi2, :rpi3, :rpi3a, :rpi4, :bbb, :x86_64]
+
   def project do
     [
       app: :volume_knob,
@@ -40,7 +42,9 @@ defmodule VolumeKnob.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.1"},
-      {:sonex, git: "https://github.com/stwf/sonex.git", branch: "update-cowboy"}
+      {:sonex, git: "https://github.com/stwf/sonex.git", branch: "update-cowboy"},
+
+      {:rotary_encoder, path: "../../rotary_encoder", targets: @all_targets}
     ]
   end
 end
