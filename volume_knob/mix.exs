@@ -40,7 +40,7 @@ defmodule VolumeKnob.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.1"},
-      {:sonex, path: "../../../dev/sonex"}
+      {:sonex, git: "https://github.com/stwf/sonex.git", branch: "update-cowboy"}
     ]
   end
 end
