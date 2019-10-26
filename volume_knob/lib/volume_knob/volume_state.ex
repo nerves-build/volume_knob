@@ -6,7 +6,7 @@ defmodule VolumeKnob.VolumeState do
   use GenServer
   require Logger
 
-  @file_location Application.get_env(:volume_knob, VolumeState)[:state_location]
+  @file_location Application.get_env(:volume_knob, VolumeKnob.VolumeState)[:state_location]
 
   def start_link(_vars) do
     Logger.debug("start_link runtime state")
