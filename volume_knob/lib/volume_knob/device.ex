@@ -13,8 +13,8 @@ defmodule VolumeKnob.Device do
   end
 
   def init(data) do
-    {:ok, _} = Registry.register(Sonex, "click", [])
-    {:ok, _} = Registry.register(Sonex, "travel", [])
+    {:ok, _} = Registry.register(RotaryEncoder, "click", [])
+    {:ok, _} = Registry.register(RotaryEncoder, "travel", [])
 
     {:ok, data}
   end
@@ -25,6 +25,11 @@ defmodule VolumeKnob.Device do
 
   def handle_info({:click, down: true}, state) do
     IO.puts("the click is down")
+    {:noreply, state}
+  end
+
+  def handle_info({:click, down: false}, state) do
+    IO.puts("the click is up")
     {:noreply, state}
   end
 
