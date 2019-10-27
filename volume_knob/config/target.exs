@@ -1,6 +1,5 @@
 use Mix.Config
 
-
 config :rotary_encoder, RotaryEncoder.Monitor,
   switch_gpio: 23,
   encoder_a_gpio: 24,
