@@ -91,7 +91,7 @@ defmodule VolumeKnobWeb.PageView do
   end
 
   def draw_btn_image(_socket, nil), do: ""
-  def draw_btn_image(socket, %{player_state: %{track_info: %{title: nil}}}), do: ""
+  def draw_btn_image(_socket, %{player_state: %{track_info: %{title: nil}}}), do: ""
   def draw_btn_image(socket, %{uuid: uuid, player_state: %{current_state: "PLAYING"}}) do
     ~E"""
       <img src=<%= Routes.static_path(socket, "/images/pause.png") %> WIDTH=64px HEIGHT=64px phx-click="pause-device" phx-value-uuid="<%= uuid %>">
