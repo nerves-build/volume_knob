@@ -46,11 +46,13 @@ defmodule VknobFw.MixProject do
 
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.6", targets: @all_targets},
-      {:nerves_init_gadget, "~> 0.4", targets: @all_targets},
+#      {:nerves_init_gadget, "~> 0.4", targets: @all_targets},
 
       {:vintage_net, "~> 0.3", targets: @all_targets},
       {:busybox, "~> 0.1", targets: @all_targets}
       {:vintage_net_wizard, "~> 0.1", targets: @all_targets}
+
+      {:volume_knob, path: "../volume_knob"},
 
       # Dependencies for specific targets
       {:nerves_system_rpi, "~> 1.8", runtime: false, targets: :rpi},
