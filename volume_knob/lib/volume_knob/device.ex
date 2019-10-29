@@ -24,22 +24,43 @@ defmodule VolumeKnob.Device do
   end
 
   def handle_info({:click, down: true}, state) do
-    IO.puts("the click is down")
     {:noreply, state}
   end
 
   def handle_info({:click, down: false}, state) do
-    IO.puts("the click is up")
+    VolumeKnob.VolumeState.get_current_device()
+    |> Sonex.get_player()
+    |> case do
+        %{player_state: %{current_state: "stopped"}} = player ->
+          Sonex.start_player(player)
+
+        %{player_state: %{current_state: "playing"}} = player ->
+          Sonex.stop_player(player)
+
+        %{player_state: %{current_state: other}} ->
+          Logger.debug("the unknowns state was #{other}")
+      end
     {:noreply, state}
   end
 
   def handle_info({:travel, direction: :right}, state) do
-    IO.puts("the click is right")
+    
+    device = %{player_state: %{volume: volume}} =
+      VolumeKnob.VolumeState.get_current_device()
+      |> Sonex.get_player()
+
+    Sonex.set_volume(device, Kernel.min(100, volume + 10))
+
     {:noreply, state}
   end
 
   def handle_info({:travel, direction: :left}, state) do
-    IO.puts("the click is left")
+    device = %{player_state: %{volume: volume}} =
+      VolumeKnob.VolumeState.get_current_device()
+      |> Sonex.get_player()
+    
+    Sonex.set_volume(device, Kernel.max(0, volume - 10))
+
     {:noreply, state}
   end
 
