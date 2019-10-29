@@ -15,6 +15,7 @@ defmodule VolumeKnob.Device do
   def init(data) do
     {:ok, _} = Registry.register(RotaryEncoder, "click", [])
     {:ok, _} = Registry.register(RotaryEncoder, "travel", [])
+    {:ok, _} = Registry.register(Sonex, "devices", [])
 
     {:ok, data}
   end
@@ -64,4 +65,20 @@ defmodule VolumeKnob.Device do
     {:noreply, state}
   end
 
+  def handle_info({:updated, _new_device}, state) do
+    VolumeKnob.VolumeState.get_current_device()
+    |> Sonex.get_player()
+    |> case do
+      nil -> :ok
+      %{player_state: %{volume: %{m: vol}}} ->
+        vol
+        |> String.to_integer
+        |> RotaryEncoder.set_value
+      other ->
+        IO.inspect(other, label: "other")
+    end
+    {:noreply, state}
+  end
+
+  def handle_info(_msg, state), do: {:noreply, state}
 end

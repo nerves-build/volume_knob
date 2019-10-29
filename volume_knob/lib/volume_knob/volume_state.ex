@@ -9,7 +9,6 @@ defmodule VolumeKnob.VolumeState do
   @file_location Application.get_env(:volume_knob, VolumeKnob.VolumeState)[:state_location]
 
   def start_link(_vars) do
-    Logger.debug("start_link runtime state")
     GenServer.start_link(__MODULE__, initial_data(), name: __MODULE__)
   end
 
@@ -30,7 +29,6 @@ defmodule VolumeKnob.VolumeState do
   end
 
   def init(data) do
-    Logger.debug("starting runtime state")
     {:ok, data}
   end
 
