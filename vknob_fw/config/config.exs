@@ -1,30 +1,26 @@
-# This file is responsible for configuring your application
-# and its dependencies with the aid of the Mix.Config module.
-#
-# This configuration file is loaded before any dependency and
-# is restricted to this project.
 use Mix.Config
 
 config :vknob_fw, target: Mix.target()
 
-# Customize non-Elixir parts of the firmware. See
-# https://hexdocs.pm/nerves/advanced-configuration.html for details.
-
 config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
 
-# Use shoehorn to start the main application. See the shoehorn
-# docs for separating out critical OTP applications such as those
-# involved with firmware updates.
+config :phoenix, :json_library, Jason
 
 config :shoehorn,
-  init: [:nerves_runtime, :nerves_init_gadget],
+  init: [:nerves_runtime],
   app: Mix.Project.config()[:app]
 
-# Use Ringlogger as the logger backend and remove :console.
-# See https://hexdocs.pm/ring_logger/readme.html for more information on
-# configuring ring_logger.
+config :volume_knob, VolumeKnobWeb.Endpoint,
+  url: [host: "example.com", port: 80],
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  secret_key_base: "RVGBDiOsP7xkLie3Sm20g03CU9xCrEEcUgBpHk+wvR0rEwleVzjd2/c4zVmneYF9",
+  render_errors: [view: VolumeKnobWeb.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: VolumeKnob.PubSub, adapter: Phoenix.PubSub.PG2],
+  live_view: [
+    signing_salt: "Gr/vYanKr/CC+SNJImqDE9TZYPUMIn/1"
+  ]
 
-config :logger, backends: [RingLogger]
+config :logger, backends: [RingLogger], level: :info
 
 if Mix.target() != :host do
   import_config "target.exs"

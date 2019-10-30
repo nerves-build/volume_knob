@@ -49,8 +49,9 @@ defmodule VknobFw.MixProject do
 #      {:nerves_init_gadget, "~> 0.4", targets: @all_targets},
 
       {:vintage_net, "~> 0.3", targets: @all_targets},
-      {:busybox, "~> 0.1", targets: @all_targets}
-      {:vintage_net_wizard, "~> 0.1", targets: @all_targets}
+      {:busybox, "~> 0.1", targets: @all_targets},
+      {:vintage_net_wizard, "~> 0.1", targets: @all_targets},
+      {:nerves_time, "~> 0.3.0", targets: @all_targets},
 
       {:volume_knob, path: "../volume_knob"},
 
