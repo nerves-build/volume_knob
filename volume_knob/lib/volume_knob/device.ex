@@ -32,10 +32,10 @@ defmodule VolumeKnob.Device do
     VolumeKnob.VolumeState.get_current_device()
     |> Sonex.get_player()
     |> case do
-        %{player_state: %{current_state: "stopped"}} = player ->
+        %{player_state: %{current_state: "STOPPED"}} = player ->
           Sonex.start_player(player)
 
-        %{player_state: %{current_state: "playing"}} = player ->
+        %{player_state: %{current_state: "PLAYING"}} = player ->
           Sonex.stop_player(player)
 
         %{player_state: %{current_state: other}} ->
@@ -46,21 +46,21 @@ defmodule VolumeKnob.Device do
 
   def handle_info({:travel, direction: :right}, state) do
     
-    device = %{player_state: %{volume: volume}} =
+    device = %{player_state: %{volume: %{m: volume}}} =
       VolumeKnob.VolumeState.get_current_device()
       |> Sonex.get_player()
 
-    Sonex.set_volume(device, Kernel.min(100, volume + 10))
+    Sonex.set_volume(device, Kernel.min(99, String.to_integer(volume) + 3))
 
     {:noreply, state}
   end
 
   def handle_info({:travel, direction: :left}, state) do
-    device = %{player_state: %{volume: volume}} =
+    device = %{player_state: %{volume: %{m: volume}}} =
       VolumeKnob.VolumeState.get_current_device()
       |> Sonex.get_player()
     
-    Sonex.set_volume(device, Kernel.max(0, volume - 10))
+    Sonex.set_volume(device, Kernel.max(1, String.to_integer(volume) - 3))
 
     {:noreply, state}
   end
