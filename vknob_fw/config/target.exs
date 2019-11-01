@@ -32,7 +32,7 @@ config :vintage_net,
 
 config :vintage_net_wizard,
   dns_name: "volume-knob-config.local",
-  gpio_pin: 27
+  port: 81
 
 # Import target specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
@@ -49,4 +49,4 @@ config :sonex, Sonex.Discovery,
   net_device_name: "wlan0"
 
 config :volume_knob, VolumeKnob.VolumeState,
-  state_location: "/home/pi/vol_knob_data.term"
+  state_location: "/root/vol_knob_data.term"

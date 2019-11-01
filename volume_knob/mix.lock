@@ -25,7 +25,7 @@
   "plug_crypto": {:hex, :plug_crypto, "1.0.0", "18e49317d3fa343f24620ed22795ec29d4a5e602d52d1513ccea0b07d8ea7d4d", [:mix], [], "hexpm"},
   "ranch": {:hex, :ranch, "1.7.1", "6b1fab51b49196860b733a49c07604465a47bdb78aa10c1c16a3d199f7f8c881", [:rebar3], [], "hexpm"},
   "rotary_encoder": {:git, "https://github.com/TehSnappy/rotary_encoder.git", "3bb2f72fe72c30216878b4a5a99f7ace9f623845", []},
-  "sonex": {:git, "https://github.com/stwf/sonex.git", "f76c221cd1327a490e00a7fb8a736e166c4b6b93", [branch: "update-cowboy"]},
+  "sonex": {:git, "https://github.com/stwf/sonex.git", "2eccd1d63fccb942af89728303d6cba2972a855e", [branch: "update-cowboy"]},
   "ssl_verify_fun": {:hex, :ssl_verify_fun, "1.1.5", "6eaf7ad16cb568bb01753dbbd7a95ff8b91c7979482b95f38443fe2c8852a79b", [:make, :mix, :rebar3], [], "hexpm"},
   "sweet_xml": {:hex, :sweet_xml, "0.6.6", "fc3e91ec5dd7c787b6195757fbcf0abc670cee1e4172687b45183032221b66b8", [:mix], [], "hexpm"},
   "telemetry": {:hex, :telemetry, "0.4.0", "8339bee3fa8b91cb84d14c2935f8ecf399ccd87301ad6da6b71c09553834b2ab", [:rebar3], [], "hexpm"},

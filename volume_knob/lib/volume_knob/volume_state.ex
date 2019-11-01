@@ -1,6 +1,6 @@
 defmodule VolumeKnob.VolumeState do
   defmodule State do
-    defstruct current_zone: "", current_device: ""
+    defstruct current_zone: "", current_device: "", fresh: false
   end
 
   use GenServer
@@ -14,6 +14,14 @@ defmodule VolumeKnob.VolumeState do
 
   def set_current_zone(zone_uuid) do
     GenServer.call(__MODULE__, {:set_current_zone, zone_uuid})
+  end
+
+  def is_fresh?() do
+    %{
+      fresh: fresh
+    } = GenServer.call(__MODULE__, :get_state)
+
+    fresh
   end
 
   def get_current_zone() do
@@ -34,6 +42,10 @@ defmodule VolumeKnob.VolumeState do
 
   def handle_call(:get_current_zone, _from, %{current_zone: current_zone} = state) do
     {:reply, current_zone, state}
+  end
+
+  def handle_call(:get_state, _from, state) do
+    {:reply, state, state}
   end
 
   def handle_call({:set_current_zone, zone_uuid}, _from, state) do
@@ -71,14 +83,13 @@ defmodule VolumeKnob.VolumeState do
           @file_location
           |> File.read!()
           |> :erlang.binary_to_term()
-          |> Map.from_struct()
 
         Map.merge(defs, existing)
       else
         File.open!(@file_location, [:read, :write])
         File.write!(@file_location, :erlang.term_to_binary(defs))
 
-        defs
+        Map.put(defs, :fresh, true)
       end
 
     struct(State, defs)

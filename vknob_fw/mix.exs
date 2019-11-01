@@ -52,8 +52,11 @@ defmodule VknobFw.MixProject do
       {:busybox, "~> 0.1", targets: @all_targets},
       {:vintage_net_wizard, "~> 0.1", targets: @all_targets},
       {:nerves_time, "~> 0.3.0", targets: @all_targets},
+      {:nerves_firmware_ssh, "~> 0.3", targets: @all_targets},
+      {:mdns, "~> 1.0"},
 
       {:volume_knob, path: "../volume_knob"},
+      {:sweet_xml, "~> 0.6"},
 
       # Dependencies for specific targets
       {:nerves_system_rpi, "~> 1.8", runtime: false, targets: :rpi},

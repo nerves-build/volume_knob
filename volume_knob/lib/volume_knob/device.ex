@@ -3,9 +3,12 @@ defmodule VolumeKnob.Device do
   use GenServer
   require Logger
 
+  alias VolumeKnob.VolumeState
+
+  @target Mix.target
 
   def start_link(_vars) do
-    GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
+    GenServer.start_link(__MODULE__, %{target: @target}, name: __MODULE__)
   end
 
   def set_current_zone(zone_uuid) do
@@ -17,6 +20,9 @@ defmodule VolumeKnob.Device do
     {:ok, _} = Registry.register(RotaryEncoder, "travel", [])
     {:ok, _} = Registry.register(Sonex, "devices", [])
 
+    if VolumeState.is_fresh? do
+      VintageNetWizard.run_wizard()
+    end
     {:ok, data}
   end
 
@@ -65,6 +71,9 @@ defmodule VolumeKnob.Device do
     {:noreply, state}
   end
 
+  def handle_info({:updated, _new_device}, %{target: :host} = state),
+    do: {:noreply, state}
+
   def handle_info({:updated, _new_device}, state) do
     VolumeKnob.VolumeState.get_current_device()
     |> Sonex.get_player()
@@ -74,8 +83,7 @@ defmodule VolumeKnob.Device do
         vol
         |> String.to_integer
         |> RotaryEncoder.set_value
-      other ->
-        IO.inspect(other, label: "other")
+      other -> :ok
     end
     {:noreply, state}
   end
