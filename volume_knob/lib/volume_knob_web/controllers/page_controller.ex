@@ -4,7 +4,7 @@ defmodule VolumeKnobWeb.PageController do
   alias VolumeKnob.VolumeState
 
   def index(conn, _params) do
-    devices = Sonex.get_devices()
+    devices = Sonex.get_players()
     current_device = VolumeState.get_current_device()
 
     {players, current_player} = case current_device do

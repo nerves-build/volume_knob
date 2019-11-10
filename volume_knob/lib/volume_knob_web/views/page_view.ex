@@ -53,6 +53,7 @@ defmodule VolumeKnobWeb.PageView do
       <input type="range" min="0" max="100" value="<%= volume %>" class="form-control-range slider" phx-click="volume-slider" phx-value-uuid="<%= uuid %>" WIDTH=100%>
     """
   end
+  def draw_vol_slider(_), do: ""
 
   def draw_playing_state(%{player_state: %{current_state: current_state}}) do
     current_state

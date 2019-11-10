@@ -65,7 +65,7 @@ defmodule VolumeKnobWeb.ControlsLive do
     end
 
     assign(socket,
-      devices: Sonex.get_devices(),
+      devices: Sonex.get_players(),
       current_device: current_device,
       current_player: current_player,
       players: players

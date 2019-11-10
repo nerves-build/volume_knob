@@ -17,7 +17,7 @@ config :nerves_firmware_ssh,
   ]
 
 config :shoehorn,
-  init: [:nerves_runtime, :vintage_net],
+  init: [:nerves_runtime, :vintage_net, :nerves_firmware_ssh],
   app: Mix.Project.config()[:app]
 
 config :volume_knob, VolumeKnobWeb.Endpoint,

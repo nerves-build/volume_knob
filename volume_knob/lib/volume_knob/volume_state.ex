@@ -83,15 +83,24 @@ defmodule VolumeKnob.VolumeState do
           @file_location
           |> File.read!()
           |> :erlang.binary_to_term()
+          |> IO.inspect(label: "existing")
 
-        Map.merge(defs, existing)
+        defs
+        |> Map.merge(existing)
       else
         File.open!(@file_location, [:read, :write])
         File.write!(@file_location, :erlang.term_to_binary(defs))
 
         Map.put(defs, :fresh, true)
       end
-
+    IO.puts("starting")
+    defs = 
+      case defs do
+        %_{} = d ->
+          Map.from_struct(d)
+        m ->
+          m
+      end
     struct(State, defs)
   end
 end
