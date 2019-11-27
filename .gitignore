@@ -11,3 +11,4 @@ config/*.secret.exs
 .elixir_ls/
 
 node_modules/
+models/VolumeKnob_4~.skp
