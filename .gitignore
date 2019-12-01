@@ -12,3 +12,4 @@ config/*.secret.exs
 
 node_modules/
 models/VolumeKnob_4~.skp
+models/VolumeKnob_5~.skp
