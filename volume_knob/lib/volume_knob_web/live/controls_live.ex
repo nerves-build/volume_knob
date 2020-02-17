@@ -22,24 +22,27 @@ defmodule VolumeKnobWeb.ControlsLive do
   end
 
   def handle_event("pause-device", %{"uuid" => uuid}, socket) do
-    Sonex.get_player(uuid)
+    uuid
+    |> Sonex.get_player()
     |> Sonex.stop_player()
 
-     {:noreply, socket}
+    {:noreply, socket}
   end
 
   def handle_event("play-device", %{"uuid" => uuid}, socket) do
-    Sonex.get_player(uuid)
+    uuid
+    |> Sonex.get_player()
     |> Sonex.start_player()
 
-     {:noreply, socket}
+    {:noreply, socket}
   end
 
   def handle_event("volume-slider", %{"uuid" => uuid, "value" => value}, socket) do
-    Sonex.get_player(uuid)
+    uuid
+    |> Sonex.get_player()
     |> Sonex.set_volume(value)
 
-     {:noreply, socket}
+    {:noreply, socket}
   end
 
   def handle_info({:discovered, _new_device}, socket) do
@@ -53,16 +56,19 @@ defmodule VolumeKnobWeb.ControlsLive do
   defp decorate_socket(socket) do
     current_device = VolumeState.get_current_device()
 
-    {players, current_player} = case current_device do
-      "" ->
-        {[], nil}
-      uuid ->
-        plyr = %{coordinator_uuid: coordinator_uuid} = Sonex.get_player(uuid)
-        {
-          Sonex.players_in_zone(coordinator_uuid),
-          plyr
-        }
-    end
+    {players, current_player} =
+      case current_device do
+        "" ->
+          {[], nil}
+
+        uuid ->
+          plyr = %{coordinator_uuid: coordinator_uuid} = Sonex.get_player(uuid)
+
+          {
+            Sonex.players_in_zone(coordinator_uuid),
+            plyr
+          }
+      end
 
     assign(socket,
       devices: Sonex.get_players(),

@@ -93,14 +93,18 @@ defmodule VolumeKnob.VolumeState do
 
         Map.put(defs, :fresh, true)
       end
+
     IO.puts("starting")
-    defs = 
+
+    defs =
       case defs do
         %_{} = d ->
           Map.from_struct(d)
+
         m ->
           m
       end
+
     struct(State, defs)
   end
 end

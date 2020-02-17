@@ -48,11 +48,13 @@ defmodule VolumeKnobWeb.PageView do
   end
 
   def draw_vol_slider(nil), do: ""
+
   def draw_vol_slider(%{uuid: uuid, player_state: %{volume: %{l: "100", m: volume, r: "100"}}}) do
     ~E"""
       <input type="range" min="0" max="100" value="<%= volume %>" class="form-control-range slider" phx-click="volume-slider" phx-value-uuid="<%= uuid %>" WIDTH=100%>
     """
   end
+
   def draw_vol_slider(_), do: ""
 
   def draw_playing_state(%{player_state: %{current_state: current_state}}) do
@@ -63,12 +65,22 @@ defmodule VolumeKnobWeb.PageView do
     ""
   end
 
-  def draw_track_state(%{player_state: %{current_track: current_track, track_info: %{title: title}}}) do
+  def draw_track_state(%{
+        player_state: %{current_track: current_track, track_info: %{title: title}}
+      }) do
     "Track: #{current_track} - info: #{inspect(title)}"
+  end
+
+  def draw_track_state(device) do
+    IO.puts("error draw_track_state: #{inspect(device)}")
   end
 
   def draw_vol_state(%{player_state: %{volume: %{l: "100", m: volume, r: "100"}}}) do
     "V: #{volume}"
+  end
+
+  def draw_vol_state(device) do
+    IO.puts("error draw_vol_state: #{inspect(device)}")
   end
 
   def draw_btn_sm_image(_socket, ""), do: ""
@@ -93,6 +105,7 @@ defmodule VolumeKnobWeb.PageView do
 
   def draw_btn_image(_socket, nil), do: ""
   def draw_btn_image(_socket, %{player_state: %{track_info: %{title: nil}}}), do: ""
+
   def draw_btn_image(socket, %{uuid: uuid, player_state: %{current_state: "PLAYING"}}) do
     ~E"""
       <img src=<%= Routes.static_path(socket, "/images/pause.png") %> WIDTH=64px HEIGHT=64px phx-click="pause-device" phx-value-uuid="<%= uuid %>">

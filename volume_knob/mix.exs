@@ -41,12 +41,8 @@ defmodule VolumeKnob.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.1"},
       {:sweet_xml, "~> 0.6"},
-
-#      {:sonex, git: "https://github.com/stwf/sonex.git", branch: "update-cowboy"},
-      {:sonex, path: "../../../dev/sonex"},
-
-      {:rotary_encoder, path: "../../rotary_encoder"}
- #     {:rotary_encoder, git: "git@github.com:TehSnappy/rotary_encoder.git"}
+      {:sonex, git: "https://github.com/stwf/sonex.git", branch: "update-cowboy"}
+      #      {:sonex, path: "../../../dev/sonex"},
     ]
   end
 end

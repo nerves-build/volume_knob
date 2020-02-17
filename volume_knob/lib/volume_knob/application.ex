@@ -6,8 +6,7 @@ defmodule VolumeKnob.Application do
   def start(_type, _args) do
     children = [
       VolumeKnobWeb.Endpoint,
-      VolumeKnob.VolumeState,
-      VolumeKnob.Device
+      VolumeKnob.VolumeState
     ]
 
     opts = [strategy: :one_for_one, name: VolumeKnob.Supervisor]
