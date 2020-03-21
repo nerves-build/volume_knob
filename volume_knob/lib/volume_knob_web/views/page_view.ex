@@ -31,6 +31,26 @@ defmodule VolumeKnobWeb.PageView do
     """
   end
 
+  def draw_menu(current_device, []) do
+    ~E"""
+      <label>
+        <%= menu_option("scanning for devices...", "", current_device) %>
+      </label>
+    """
+  end
+
+  def draw_menu(current_device, devices) do
+    ~E"""
+      <select id="zones_field" class="form-control" name="current">
+        <%= menu_option("Choose a Device", "", current_device) %>
+
+        <%= for z <- devices do %>
+          <%= menu_option(z.name, z.uuid, current_device) %>
+        <% end %>
+      </select>
+    """
+  end
+
   def menu_option(name, value, selected) when selected == value do
     ~E"""
       <option value="<%= value %>" selected>
@@ -48,6 +68,7 @@ defmodule VolumeKnobWeb.PageView do
   end
 
   def draw_vol_slider(nil), do: ""
+  def draw_vol_slider(:missing), do: ""
 
   def draw_vol_slider(%{uuid: uuid, player_state: %{volume: %{l: "100", m: volume, r: "100"}}}) do
     ~E"""
@@ -62,6 +83,10 @@ defmodule VolumeKnobWeb.PageView do
   end
 
   def draw_track_state(nil) do
+    ""
+  end
+
+  def draw_track_state(:missing) do
     ""
   end
 
@@ -104,6 +129,7 @@ defmodule VolumeKnobWeb.PageView do
   end
 
   def draw_btn_image(_socket, nil), do: ""
+  def draw_btn_image(_socket, :missing), do: ""
   def draw_btn_image(_socket, %{player_state: %{track_info: %{title: nil}}}), do: ""
 
   def draw_btn_image(socket, %{uuid: uuid, player_state: %{current_state: "PLAYING"}}) do

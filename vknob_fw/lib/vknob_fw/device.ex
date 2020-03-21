@@ -1,4 +1,4 @@
-defmodule VolumeKnob.Device do
+defmodule VknobFw.Device do
   use GenServer
   require Logger
 
@@ -28,7 +28,7 @@ defmodule VolumeKnob.Device do
   end
 
   def handle_info({:click, %{type: :up, duration: duration}}, state) when duration > 5000 do
-    VintageNetWizard.run_wizard()
+    #  VintageNetWizard.run_wizard()
 
     {:noreply, state}
   end
@@ -57,6 +57,10 @@ defmodule VolumeKnob.Device do
     {:noreply, state}
   end
 
+  def handle_info({:discovered, _new_device}, state) do
+    {:noreply, state}
+  end
+
   def handle_info({:updated, _new_device}, state) do
     VolumeState.get_current_device()
     |> Sonex.get_player()
@@ -65,8 +69,10 @@ defmodule VolumeKnob.Device do
         :ok
 
       %{player_state: %{volume: %{m: vol}}} ->
+        IO.inspect(vol, label: "the volume was found")
         Tlc59116.set_mode(:normal)
         Tlc59116.set_level(vol)
+        :ok
 
       _other ->
         :ok

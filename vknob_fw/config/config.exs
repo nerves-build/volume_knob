@@ -13,15 +13,11 @@ config :volume_knob, VolumeState,
 
 config :nerves_firmware_ssh,
   authorized_keys: [
-    File.read!(Path.join(System.user_home!, ".ssh/id_rsa.pub"))
+    File.read!(Path.join(System.user_home!(), ".ssh/id_rsa.pub"))
   ]
 
-config :shoehorn,
-  init: [:nerves_runtime, :vintage_net, :nerves_firmware_ssh],
-  app: Mix.Project.config()[:app]
-
 config :volume_knob, VolumeKnobWeb.Endpoint,
-  url: [host: "volume-knob.local", port: 80],
+  url: [host: "volumeknob.local", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
   check_origin: false,
   server: true,

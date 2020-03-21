@@ -1,9 +1,5 @@
 use Mix.Config
 
-# Authorize the device to receive firmware using your public key.
-# See https://hexdocs.pm/nerves_firmware_ssh/readme.html for more information
-# on configuring nerves_firmware_ssh.
-
 keys =
   [
     Path.join([System.user_home!(), ".ssh", "id_rsa.pub"]),
@@ -20,33 +16,80 @@ if keys == [],
     See your project's config.exs for this error message.
     """)
 
+config :nerves_runtime, :kernel, use_system_registry: false
+
 config :nerves_firmware_ssh,
   authorized_keys: Enum.map(keys, &File.read!/1)
+
+config :shoehorn,
+  init: [:nerves_runtime, :nerves_pack],
+  app: Mix.Project.config()[:app]
 
 config :vintage_net,
   regulatory_domain: "US",
   config: [
-    {"usb0", %{type: VintageNet.Technology.Gadget}},
-    {"wlan0", %{type: VintageNet.Technology.WiFi}}
+    {"usb0", %{type: VintageNetDirect}},
+    {"eth0",
+     %{
+       type: VintageNetEthernet,
+       ipv4: %{method: :dhcp}
+     }},
+    {"wlan0",
+     %{
+       type: VintageNetWiFi,
+       vintage_net_wifi: %{
+         networks: [
+           %{
+             key_mgmt: :wpa_psk,
+             ssid: "steves_network",
+             psk: "francine2"
+           }
+         ]
+       },
+       ipv4: %{method: :dhcp}
+     }}
   ]
 
-config :vintage_net_wizard,
-  dns_name: "volume-knob-config.local",
-  port: 81
+config :rotary_encoder, RotaryEncoder,
+  encoders: [
+    %{
+      encoder_a_pin: 24,
+      encoder_b_pin: 25,
+      button_pin: 23,
+      name: "main_volume"
+    }
+  ]
 
-# Import target specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
-# Uncomment to use target specific configurations
+config :rotary_encoder, RotaryEncoderTest, Circuits.GPIO
 
-# import_config "#{Mix.target()}.exs"
-config :rotary_encoder, RotaryEncoder.Monitor,
-  switch_gpio: 23,
-  encoder_a_gpio: 24,
-  encoder_b_gpio: 25,
-  led_base_address: 0x68
+config :tlc59116, Tlc59116.LedString, led_base_address: 0x68
 
-config :sonex, Sonex.Discovery,
-  net_device_name: "wlan0"
+config :sonex, Sonex.Discovery, net_device_name: "wlan0"
 
-config :volume_knob, VolumeKnob.VolumeState,
-  state_location: "/root/vol_knob_data.term"
+config :volume_knob, VolumeKnob.VolumeState, state_location: "/root/vol_knob_data.term"
+
+config :mdns_lite,
+  host: [:hostname, "volumeknob"],
+  ttl: 120,
+
+  # Advertise the following services over mDNS.
+  services: [
+    %{
+      name: "SSH Remote Login Protocol",
+      protocol: "ssh",
+      transport: "tcp",
+      port: 22
+    },
+    %{
+      name: "Secure File Transfer Protocol over SSH",
+      protocol: "sftp-ssh",
+      transport: "tcp",
+      port: 22
+    },
+    %{
+      name: "Erlang Port Mapper Daemon",
+      protocol: "epmd",
+      transport: "tcp",
+      port: 4369
+    }
+  ]

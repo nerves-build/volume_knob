@@ -1,28 +1,22 @@
 <div class="row">
   <div class="col-sm-8 col">
     <div class="row">
-        <form phx-change="validate">
-          <div class="form-group">
-            <select id="zones_field" class="form-control" name="current">
-              <%= menu_option("Choose a Device", "", @current_device) %>
-
-              <%= for z <- @devices do %>
-                <%= menu_option(z.name, z.uuid, @current_device) %>
-              <% end %>
-            </select>
-          </div>
-        </form>
+      <form phx-change="validate">
+        <div class="form-group">
+          <%= draw_menu(@current_device, @devices) %>
+        </div>
+      </form>
     </div>
     <div class="row">
-        <div class="col-sm-2 col">
-          <%= draw_btn_image(@socket, @current_player) %>
+      <div class="col-sm-2 col">
+        <%= draw_btn_image(@socket, @current_player) %>
+      </div>
+      <div class="col-sm-10 col">
+        <div class="form-group">
+          <%= draw_vol_slider(@current_player) %>
+          <%= draw_track_state(@current_player) %>
         </div>
-        <div class="col-sm-10 col">
-          <div class="form-group">
-            <%= draw_vol_slider(@current_player) %>
-            <%= draw_track_state(@current_player) %>
-          </div>
-        </div>
+      </div>
     </div>
   </div>
   <div class="col-sm-4 col">

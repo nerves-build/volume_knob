@@ -39,37 +39,33 @@ defmodule VknobFw.MixProject do
   defp deps do
     [
       # Dependencies for all targets
-      {:nerves, "~> 1.5.0", runtime: false},
+      {:nerves, "~> 1.5.0", runtime: false, targets: @all_targets},
       {:shoehorn, "~> 0.6"},
       {:ring_logger, "~> 0.6"},
       {:toolshed, "~> 0.2"},
-
-      # Dependencies for all targets except :host
-      {:nerves_runtime, "~> 0.6", targets: @all_targets},
-      #      {:nerves_init_gadget, "~> 0.4", targets: @all_targets},
-
-      {:vintage_net, "~> 0.3", targets: @all_targets},
-      {:busybox, "~> 0.1", targets: @all_targets},
-      {:vintage_net_wizard, "~> 0.1", targets: @all_targets},
-      {:nerves_time, "~> 0.3.0", targets: @all_targets},
-      {:nerves_firmware_ssh, "~> 0.3", targets: @all_targets},
-      {:mdns, "~> 1.0"},
+      {:sweet_xml, "~> 0.6"},
       {:volume_knob, path: "../volume_knob"},
       {:tlc59116, path: "../../tlc59116"},
-      {:sweet_xml, "~> 0.6"},
-      {:sonex, git: "https://github.com/stwf/sonex.git", branch: "update-cowboy"},
-      {:rotary_encoder,
-       git: "git@github.com:nerves-build/rotary_encoder.git", branch: "bootstrap"},
+      # Dependencies for all targets except :host
+      {:nerves_runtime, "~> 0.6"},
+      {:nerves_pack, "~> 0.3"},
+
+      #  {:mdns_lite, "~> 0.4"},
+      #  {:volume_knob, path: "../volume_knob"},
+      #      {:tlc59116, path: "../../tlc59116"},
+      #   {:sonex, git: "https://github.com/stwf/sonex.git", branch: "updated"},
+      #     {:rotary_encoder,
+      #     git: "git@github.com:nerves-build/rotary_encoder.git", branch: "bootstrap"},
 
       # Dependencies for specific targets
-      {:nerves_system_rpi, "~> 1.8", runtime: false, targets: :rpi},
-      {:nerves_system_rpi0, "~> 1.8", runtime: false, targets: :rpi0},
-      {:nerves_system_rpi2, "~> 1.8", runtime: false, targets: :rpi2},
-      {:nerves_system_rpi3, "~> 1.8", runtime: false, targets: :rpi3},
-      {:nerves_system_rpi3a, "~> 1.8", runtime: false, targets: :rpi3a},
-      {:nerves_system_rpi4, "~> 1.8", runtime: false, targets: :rpi4},
-      {:nerves_system_bbb, "~> 2.3", runtime: false, targets: :bbb},
-      {:nerves_system_x86_64, "~> 1.8", runtime: false, targets: :x86_64}
+      {:nerves_system_rpi, "~> 1.11", runtime: false, targets: :rpi},
+      {:nerves_system_rpi0, "~> 1.11", runtime: false, targets: :rpi0},
+      {:nerves_system_rpi2, "~> 1.11", runtime: false, targets: :rpi2},
+      {:nerves_system_rpi3, "~> 1.11", runtime: false, targets: :rpi3},
+      {:nerves_system_rpi3a, "~> 1.11", runtime: false, targets: :rpi3a},
+      {:nerves_system_rpi4, "~> 1.11", runtime: false, targets: :rpi4},
+      {:nerves_system_bbb, "~> 2.6", runtime: false, targets: :bbb},
+      {:nerves_system_x86_64, "~> 1.11", runtime: false, targets: :x86_64}
     ]
   end
 

@@ -54,7 +54,7 @@ defmodule VolumeKnobWeb.ControlsLive do
   end
 
   defp decorate_socket(socket) do
-    current_device = VolumeState.get_current_device()
+    current_device = VolumeState.get_current_device() |> IO.inspect()
 
     {players, current_player} =
       case current_device do
@@ -62,12 +62,16 @@ defmodule VolumeKnobWeb.ControlsLive do
           {[], nil}
 
         uuid ->
-          plyr = %{coordinator_uuid: coordinator_uuid} = Sonex.get_player(uuid)
+          case Sonex.get_player(uuid) do
+            plyr = %{coordinator_uuid: coordinator_uuid} ->
+              {
+                Sonex.players_in_zone(coordinator_uuid),
+                plyr
+              }
 
-          {
-            Sonex.players_in_zone(coordinator_uuid),
-            plyr
-          }
+            _other ->
+              {[], :missing}
+          end
       end
 
     assign(socket,
