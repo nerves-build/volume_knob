@@ -19,6 +19,7 @@ defmodule VknobFw.Device do
   def init(data) do
     {:ok, _} = RotaryEncoder.subscribe("main_volume")
     {:ok, _} = Registry.register(Sonex, "devices", [])
+    :ok = VintageNet.subscribe(["interface", "wlan0"])
 
     {:ok, data}
   end
@@ -33,11 +34,23 @@ defmodule VknobFw.Device do
     {:noreply, state}
   end
 
+  def handle_info({VintageNet, name, old_value, new_value, metadata}, state) do
+    Logger.error(
+      "the VintageNet event name is #{name} - #{old_value} - #{new_value} - #{insect(metadata)}"
+    )
+
+    {:noreply, state}
+  end
+
   def handle_info({:click, %{type: :up}}, state) do
     VolumeState.get_current_device()
     |> Sonex.get_player()
     |> toggle_playing
 
+    {:noreply, state}
+  end
+
+  def handle_info({:click, %{type: :down}}, state) do
     {:noreply, state}
   end
 
@@ -58,10 +71,13 @@ defmodule VknobFw.Device do
   end
 
   def handle_info({:discovered, _new_device}, state) do
+    Logger.warn("device received :discovered")
     {:noreply, state}
   end
 
   def handle_info({:updated, _new_device}, state) do
+    Logger.warn("device received :updated")
+
     VolumeState.get_current_device()
     |> Sonex.get_player()
     |> case do
@@ -69,7 +85,7 @@ defmodule VknobFw.Device do
         :ok
 
       %{player_state: %{volume: %{m: vol}}} ->
-        IO.inspect(vol, label: "the volume was found")
+        Logger.warn("the volume was found #{vol}")
         Tlc59116.set_mode(:normal)
         Tlc59116.set_level(vol)
         :ok
@@ -92,6 +108,9 @@ defmodule VknobFw.Device do
 
   defp toggle_playing(player) do
     case player do
+      %{player_state: %{current_state: "PAUSED_PLAYBACK"}} ->
+        Sonex.start_player(player)
+
       %{player_state: %{current_state: "STOPPED"}} ->
         Sonex.start_player(player)
 
