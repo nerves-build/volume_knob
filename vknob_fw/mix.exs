@@ -45,7 +45,6 @@ defmodule VknobFw.MixProject do
       {:toolshed, "~> 0.2"},
       {:sweet_xml, "~> 0.6"},
       {:volume_knob, path: "../volume_knob"},
-      {:tlc59116, path: "../../tlc59116"},
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.6"},
       {:nerves_pack, "~> 0.3"},

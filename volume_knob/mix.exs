@@ -43,6 +43,7 @@ defmodule VolumeKnob.MixProject do
       {:sweet_xml, "~> 0.6"},
       #      {:rotary_encoder, github: "nerves-build/rotary_encoder", branch: "nmaster"},
       {:rotary_encoder, path: "../../rotary_encoder", branch: "nmaster"},
+      {:tlc59116, path: "../../tlc59116"},
       {:sonex, git: "https://github.com/stwf/sonex.git", branch: "updated"}
     ]
   end
