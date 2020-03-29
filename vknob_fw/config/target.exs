@@ -55,7 +55,7 @@ config :rotary_encoder, RotaryEncoder,
     }
   ]
 
-config :rotary_encoder, RotaryEncoderTest, Circuits.GPIO
+config(:rotary_encoder, RotaryEncoder, gpio_handler, Circuits.GPIO)
 
 config :tlc59116, Tlc59116.LedString, led_base_address: 0x68
 

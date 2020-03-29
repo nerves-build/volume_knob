@@ -58,13 +58,10 @@ defmodule VolumeKnob.Device do
   end
 
   def handle_info({:discovered, _new_device}, state) do
-    Logger.warn("device received :discovered")
     {:noreply, state}
   end
 
   def handle_info({:updated, _new_device}, state) do
-    Logger.warn("device received :updated")
-
     VolumeState.get_current_device()
     |> Sonex.get_player()
     |> case do
@@ -72,7 +69,6 @@ defmodule VolumeKnob.Device do
         :ok
 
       %{player_state: %{volume: %{m: vol}}} ->
-        Logger.warn("the volume was found #{vol}")
         Tlc59116.set_mode(:normal)
         Tlc59116.set_level(vol)
         :ok
@@ -94,7 +90,6 @@ defmodule VolumeKnob.Device do
   end
 
   defp toggle_playing(player) do
-    Logger.warn("am toggling player")
     case player do
       %{player_state: %{current_state: "PAUSED_PLAYBACK"}} ->
         Sonex.start_player(player)

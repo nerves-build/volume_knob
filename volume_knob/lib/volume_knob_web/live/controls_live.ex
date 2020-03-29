@@ -54,7 +54,7 @@ defmodule VolumeKnobWeb.ControlsLive do
   end
 
   defp decorate_socket(socket) do
-    current_device = VolumeState.get_current_device() |> IO.inspect()
+    current_device = VolumeState.get_current_device()
 
     {players, current_player} =
       case current_device do

@@ -8,16 +8,9 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
   <body>
-    <main role="main" class="container">
-      <div class="bborders row">
-        <div class="col-sm-3 col">
-          <img src="<%= Routes.static_path(@conn, "/images/logo.png") %>" alt="Logo" />
-        </div>
-        <div class="col-sm-9 col">
-          <%= render @view_module, @view_template, assigns %>
-        </div>
-      </div>
-    </main>
+    <section class="section">
+      <%= render @view_module, @view_template, assigns %>
+    </section>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
