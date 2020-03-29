@@ -10934,16 +10934,8 @@ select.form-control {
 }
 
 .track_text {
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-  flex-shrink: 0;
-  line-break: anywhere;
-  word-wrap: initial;
-  flex-grow: 0;
 }
-
 #player_display {
   margin-bottom: 0.1rem;
   margin-right: 0.25rem;

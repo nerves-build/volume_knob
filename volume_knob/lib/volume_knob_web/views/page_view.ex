@@ -132,7 +132,7 @@ defmodule VolumeKnobWeb.PageView do
 
   def draw_btn_image(_socket, nil), do: ""
   def draw_btn_image(_socket, :missing), do: ""
-  def draw_btn_image(_socket, %{player_state: %{track_info: %{title: nil}}}), do: ""
+  # def draw_btn_image(_socket, %{player_state: %{track_info: %{title: nil}}}), do: ""
 
   def draw_btn_image(socket, %{uuid: uuid, player_state: %{current_state: "PLAYING"}}) do
     ~E"""

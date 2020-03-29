@@ -2,8 +2,6 @@ defmodule VknobFw.Device do
   use GenServer
   require Logger
 
-  alias VolumeKnob.VolumeState
-
   @target Mix.target()
 
   def start_link(_vars) do
@@ -31,7 +29,9 @@ defmodule VknobFw.Device do
 
   def handle_info({VintageNet, name, old_value, new_value, metadata}, state) do
     Logger.error(
-      "the VintageNet event name is #{name} - #{old_value} - #{new_value} - #{insect(metadata)}"
+      "the VintageNet event name is #{name} - #{inspect(old_value)} - #{inspect(new_value)} - #{
+        inspect(metadata)
+      }"
     )
 
     {:noreply, state}
