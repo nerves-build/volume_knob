@@ -6,19 +6,10 @@ defmodule VknobFw.Application do
   def start(_type, _args) do
     opts = [strategy: :one_for_one, name: VknobFw.Supervisor]
 
-    children =
-      [
-        VknobFw.Device
-      ] ++ children(target())
+    children = [
+      VknobFw.Device
+    ]
 
     Supervisor.start_link(children, opts)
-  end
-
-  def children(_target) do
-    []
-  end
-
-  def target() do
-    Application.get_env(:vknob_fw, :target)
   end
 end

@@ -74,7 +74,7 @@ defmodule VolumeKnobWeb.PageView do
 
   def draw_vol_slider(%{uuid: uuid, player_state: %{volume: %{l: "100", m: volume, r: "100"}}}) do
     ~E"""
-      <input type="range" min="0" max="100" value="<%= volume %>" class="slider" phx-click="volume-slider" phx-value-uuid="<%= uuid %>">
+      <input type="range" min="1" max="100" value="<%= volume %>" class="slider" phx-click="volume-slider" phx-value-uuid="<%= uuid %>">
     """
   end
 

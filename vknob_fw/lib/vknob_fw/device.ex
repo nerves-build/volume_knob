@@ -22,7 +22,7 @@ defmodule VknobFw.Device do
   end
 
   def handle_info({:click, %{type: :up, duration: duration}}, state) when duration > 5000 do
-    #  VintageNetWizard.run_wizard()
+    VintageNetWizard.run_wizard()
 
     {:noreply, state}
   end

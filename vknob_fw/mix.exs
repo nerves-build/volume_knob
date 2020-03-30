@@ -48,7 +48,7 @@ defmodule VknobFw.MixProject do
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.6"},
       {:nerves_pack, "~> 0.3"},
-
+      {:vintage_net_wizard, "~> 0.1"},
       #  {:mdns_lite, "~> 0.4"},
       #  {:volume_knob, path: "../volume_knob"},
       #      {:tlc59116, path: "../../tlc59116"},
