@@ -49,12 +49,6 @@ defmodule VknobFw.MixProject do
       {:nerves_runtime, "~> 0.6"},
       {:nerves_pack, "~> 0.3"},
       {:vintage_net_wizard, "~> 0.1"},
-      #  {:mdns_lite, "~> 0.4"},
-      #  {:volume_knob, path: "../volume_knob"},
-      #      {:tlc59116, path: "../../tlc59116"},
-      #   {:sonex, git: "https://github.com/stwf/sonex.git", branch: "updated"},
-      #     {:rotary_encoder,
-      #     git: "git@github.com:nerves-build/rotary_encoder.git", branch: "bootstrap"},
 
       # Dependencies for specific targets
       {:nerves_system_rpi, "~> 1.11", runtime: false, targets: :rpi},

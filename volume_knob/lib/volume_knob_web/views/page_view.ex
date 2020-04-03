@@ -5,8 +5,8 @@ defmodule VolumeKnobWeb.PageView do
     ~E"""
       <div id="player_display" class="tile is-ancestor">
         <div class="tile is-vertical no-padding">
-          <div class="level is-mobile lite-pad has-background-grey-light has-text-light">
-            <div class="level-item is-8 font-left">
+          <div class="level is-mobile lite-pad has-background-grey-light has-text-black-ter">
+            <div class="level-item is-8 font-left has-text-weight-semibold">
               <%= name %>
             </div>
             <div class="level-item is-4 font-right ip_font">

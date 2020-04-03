@@ -64,7 +64,8 @@ config :vintage_net,
   ]
 
 config :vintage_net_wizard,
-  dns_name: "volumeknob-wifi.local"
+  dns_name: "volumeknob-wifi.local",
+  port: 4000
 
 config :rotary_encoder, RotaryEncoder,
   encoders: [

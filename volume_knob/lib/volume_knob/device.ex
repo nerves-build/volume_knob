@@ -24,7 +24,7 @@ defmodule VolumeKnob.Device do
   end
 
   def handle_info({:click, %{type: :up, duration: duration}}, state) when duration > 5000 do
-    #  VintageNetWizard.run_wizard()
+    VintageNetWizard.run_wizard()
 
     {:noreply, state}
   end
@@ -101,7 +101,7 @@ defmodule VolumeKnob.Device do
         Sonex.stop_player(player)
 
       %{player_state: %{current_state: other}} ->
-        Logger.warn("the unknowns state was #{other}")
+        Logger.warn("Unknown player state was #{other}")
     end
   end
 end

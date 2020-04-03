@@ -27,6 +27,10 @@ defmodule VknobFw.Device do
     {:noreply, state}
   end
 
+  def handle_info(_, state) do
+    {:noreply, state}
+  end
+
   def handle_info({VintageNet, name, old_value, new_value, metadata}, state) do
     Logger.error(
       "the VintageNet event name is #{name} - #{inspect(old_value)} - #{inspect(new_value)} - #{
