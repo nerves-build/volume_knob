@@ -46,26 +46,14 @@ config :shoehorn,
 config :vintage_net,
   regulatory_domain: "US",
   config: [
-    {"usb0", %{type: VintageNetDirect}},
-    {"wlan0",
-     %{
-       type: VintageNetWiFi,
-       vintage_net_wifi: %{
-         networks: [
-           %{
-             key_mgmt: :wpa_psk,
-             ssid: "steves_network",
-             psk: "francine2"
-           }
-         ]
-       },
-       ipv4: %{method: :dhcp}
-     }}
+    {"wlan0", %{type: VintageNetWiFi}}
   ]
 
 config :vintage_net_wizard,
   dns_name: "volumeknob-wifi.local",
-  port: 4000
+  port: 4010,
+  ssid: "volumeknob-setup",
+  captive_portal: false
 
 config :rotary_encoder, RotaryEncoder,
   encoders: [
@@ -77,9 +65,7 @@ config :rotary_encoder, RotaryEncoder,
     }
   ]
 
-config :rotary_encoder, RotaryEncoder, gpio_handler: Circuits.GPIO
-
-config :tlc59116, Tlc59116.LedString, led_base_address: 0x68
+config :tlc59116, Tlc59116, led_base_address: 0x68
 
 config :sonex, Sonex.Discovery, net_device_name: "wlan0"
 

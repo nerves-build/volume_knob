@@ -48,7 +48,8 @@ defmodule VknobFw.MixProject do
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.6"},
       {:nerves_pack, "~> 0.3"},
-      {:vintage_net_wizard, "~> 0.1"},
+      #      {:vintage_net_wizard, "~> 0.2"},
+      {:vintage_net_wizard, git: "https://github.com/nerves-networking/vintage_net_wizard.git"},
 
       # Dependencies for specific targets
       {:nerves_system_rpi, "~> 1.11", runtime: false, targets: :rpi},

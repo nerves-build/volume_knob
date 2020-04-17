@@ -43,7 +43,8 @@ defmodule VolumeKnob.MixProject do
       {:sweet_xml, "~> 0.6"},
       {:rotary_encoder, "~> 1.0"},
       {:tlc59116, path: "../../tlc59116"},
-      {:sonex, git: "https://github.com/harmon25/sonex.git"}
+      #     {:sonex, git: "https://github.com/harmon25/sonex.git"}
+      {:sonex, path: "../../sonex"}
     ]
   end
 end

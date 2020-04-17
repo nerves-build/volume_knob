@@ -72,7 +72,7 @@ defmodule VolumeKnobWeb.PageView do
   def draw_vol_slider(nil), do: ""
   def draw_vol_slider(:missing), do: ""
 
-  def draw_vol_slider(%{uuid: uuid, player_state: %{volume: %{l: "100", m: volume, r: "100"}}}) do
+  def draw_vol_slider(%{uuid: uuid, player_state: %{volume: %{l: _, m: volume, r: _}}}) do
     ~E"""
       <input type="range" min="1" max="100" value="<%= volume %>" class="slider" phx-click="volume-slider" phx-value-uuid="<%= uuid %>">
     """
@@ -102,7 +102,7 @@ defmodule VolumeKnobWeb.PageView do
     IO.puts("error draw_track_state: #{inspect(device)}")
   end
 
-  def draw_vol_state(%{player_state: %{volume: %{l: "100", m: volume, r: "100"}}}) do
+  def draw_vol_state(%{player_state: %{volume: %{l: _, m: volume, r: _}}}) do
     "VOL: #{volume}"
   end
 

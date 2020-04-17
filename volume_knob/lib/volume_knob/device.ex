@@ -19,14 +19,9 @@ defmodule VolumeKnob.Device do
   def init(data) do
     {:ok, _} = RotaryEncoder.subscribe("main_volume")
     {:ok, _} = Registry.register(Sonex, "devices", [])
+    Tlc59116.set_mode(:cylon)
 
     {:ok, data}
-  end
-
-  def handle_info({:click, %{type: :up, duration: duration}}, state) when duration > 5000 do
-    VintageNetWizard.run_wizard()
-
-    {:noreply, state}
   end
 
   def handle_info({:click, %{type: :up}}, state) do
@@ -70,7 +65,11 @@ defmodule VolumeKnob.Device do
 
       %{player_state: %{volume: %{m: vol}}} ->
         Tlc59116.set_mode(:normal)
-        Tlc59116.set_level(vol)
+
+        vol
+        |> String.to_integer()
+        |> Tlc59116.set_value()
+
         :ok
 
       _other ->
@@ -80,14 +79,19 @@ defmodule VolumeKnob.Device do
     {:noreply, state}
   end
 
+  defp increment_volume(nil, _), do: Tlc59116.set_mode(:cylon)
+
   defp increment_volume(%{player_state: %{volume: %{m: volume}}} = device, amount) do
     try do
+      Tlc59116.set_mode(:normal)
       Sonex.set_volume(device, Kernel.min(99, String.to_integer(volume) + amount))
     rescue
       e in HTTPoison.Error ->
         Logger.error("increment_volume error #{inspect(e)}")
     end
   end
+
+  defp toggle_playing(nil), do: Tlc59116.set_mode(:cylon)
 
   defp toggle_playing(player) do
     case player do

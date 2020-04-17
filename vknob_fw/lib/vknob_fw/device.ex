@@ -27,17 +27,35 @@ defmodule VknobFw.Device do
     {:noreply, state}
   end
 
-  def handle_info(_, state) do
+  def handle_info(
+        {VintageNet, "interfacewlan0" <> "connection", :disconnected, :internet, _metadata},
+        state
+      ) do
+    Tlc59116.set_mode(:cylon)
+
+    {:noreply, state}
+  end
+
+  def handle_info(
+        {VintageNet, "interfacewlan0" <> "connection", :internet, :disconnected, _metadata},
+        state
+      ) do
+    Tlc59116.set_mode(:twinkle)
+
     {:noreply, state}
   end
 
   def handle_info({VintageNet, name, old_value, new_value, metadata}, state) do
     Logger.error(
-      "the VintageNet event name is #{name} - #{inspect(old_value)} - #{inspect(new_value)} - #{
-        inspect(metadata)
-      }"
+      "the VintageNet event name is #{inspect(name)} - #{inspect(old_value)} - #{
+        inspect(new_value)
+      } - #{inspect(metadata)}"
     )
 
+    {:noreply, state}
+  end
+
+  def handle_info(_, state) do
     {:noreply, state}
   end
 end
