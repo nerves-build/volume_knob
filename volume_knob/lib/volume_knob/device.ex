@@ -12,14 +12,9 @@ defmodule VolumeKnob.Device do
     )
   end
 
-  def set_current_zone(zone_uuid) do
-    GenServer.call(__MODULE__, {:set_current_zone, zone_uuid})
-  end
-
   def init(data) do
     {:ok, _} = RotaryEncoder.subscribe("main_volume")
     {:ok, _} = Registry.register(Sonex, "devices", [])
-    Tlc59116.set_mode(:cylon)
 
     {:ok, data}
   end
@@ -53,6 +48,7 @@ defmodule VolumeKnob.Device do
   end
 
   def handle_info({:discovered, _new_device}, state) do
+    Tlc59116.set_mode(:normal)
     {:noreply, state}
   end
 
@@ -64,11 +60,11 @@ defmodule VolumeKnob.Device do
         :ok
 
       %{player_state: %{volume: %{m: vol}}} ->
-        Tlc59116.set_mode(:normal)
-
         vol
         |> String.to_integer()
         |> Tlc59116.set_value()
+
+        Tlc59116.set_mode(:normal)
 
         :ok
 
@@ -79,7 +75,7 @@ defmodule VolumeKnob.Device do
     {:noreply, state}
   end
 
-  defp increment_volume(nil, _), do: Tlc59116.set_mode(:cylon)
+  defp increment_volume(nil, _), do: :noop
 
   defp increment_volume(%{player_state: %{volume: %{m: volume}}} = device, amount) do
     try do
@@ -91,7 +87,7 @@ defmodule VolumeKnob.Device do
     end
   end
 
-  defp toggle_playing(nil), do: Tlc59116.set_mode(:cylon)
+  defp toggle_playing(nil), do: :noop
 
   defp toggle_playing(player) do
     case player do

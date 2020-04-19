@@ -5,18 +5,14 @@
   <div class="level-left sm_fixed logo_div">
   </div>
   <div class="level-item">
-    <div class="level f_width is-mobile">
+    <div class="level column is-full is-mobile">
       <div class="level-left logo_lev">
         <%= draw_btn_image(@socket, @current_player) %>
       </div>
       <div class="level-item">
         <div class="top_box">
           <form phx-change="validate">
-            <div class="control">
-              <div class="select">
-                <%= draw_menu(@current_device, @devices) %>
-              </div>
-            </div>
+            <%= draw_menu(@current_device, @devices) %>
             <div class="control">
               <%= draw_vol_slider(@current_player) %>
             </div>
@@ -27,7 +23,7 @@
   </div>
   <div class="level-right sm_fixed">
     <%= for p <- @players do %>
-      <%= draw_device(p) %>
+      <%= render(VolumeKnobWeb.PageView, "device.html", p: p) %>
     <% end %>
   </div>
 </div>

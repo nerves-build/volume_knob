@@ -10,13 +10,10 @@ defmodule VknobFw.Device do
     )
   end
 
-  def set_current_zone(zone_uuid) do
-    GenServer.call(__MODULE__, {:set_current_zone, zone_uuid})
-  end
-
   def init(data) do
     {:ok, _} = RotaryEncoder.subscribe("main_volume")
     :ok = VintageNet.subscribe(["interface", "wlan0"])
+    Tlc59116.set_mode(:sparkle)
 
     {:ok, data}
   end
@@ -27,20 +24,25 @@ defmodule VknobFw.Device do
     {:noreply, state}
   end
 
+  def handle_info({VintageNet, ["interface", _, _, "access_points"], _, _, _metadata}, state) do
+    {:noreply, state}
+  end
+
   def handle_info(
-        {VintageNet, "interfacewlan0" <> "connection", :disconnected, :internet, _metadata},
+        {VintageNet, ["interface", _, "connection"], _, :internet, _metadata},
         state
       ) do
     Tlc59116.set_mode(:cylon)
+    Sonex.discover()
 
     {:noreply, state}
   end
 
   def handle_info(
-        {VintageNet, "interfacewlan0" <> "connection", :internet, :disconnected, _metadata},
+        {VintageNet, ["interface", _, "connection"], _, :disconnected, _metadata},
         state
       ) do
-    Tlc59116.set_mode(:twinkle)
+    Tlc59116.set_mode(:sparkle)
 
     {:noreply, state}
   end

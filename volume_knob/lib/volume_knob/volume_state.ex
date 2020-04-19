@@ -1,6 +1,6 @@
 defmodule VolumeKnob.VolumeState do
   defmodule State do
-    defstruct current_zone: "", current_device: "", fresh: false
+    defstruct current_device: ""
   end
 
   use GenServer
@@ -10,22 +10,6 @@ defmodule VolumeKnob.VolumeState do
 
   def start_link(_vars) do
     GenServer.start_link(__MODULE__, initial_data(), name: __MODULE__)
-  end
-
-  def set_current_zone(zone_uuid) do
-    GenServer.call(__MODULE__, {:set_current_zone, zone_uuid})
-  end
-
-  def is_fresh?() do
-    %{
-      fresh: fresh
-    } = GenServer.call(__MODULE__, :get_state)
-
-    fresh
-  end
-
-  def get_current_zone() do
-    GenServer.call(__MODULE__, :get_current_zone)
   end
 
   def set_current_device(device_uuid) do
@@ -40,21 +24,6 @@ defmodule VolumeKnob.VolumeState do
     {:ok, data}
   end
 
-  def handle_call(:get_current_zone, _from, %{current_zone: current_zone} = state) do
-    {:reply, current_zone, state}
-  end
-
-  def handle_call(:get_state, _from, state) do
-    {:reply, state, state}
-  end
-
-  def handle_call({:set_current_zone, zone_uuid}, _from, state) do
-    new_data = %{state | current_zone: zone_uuid}
-
-    flush(new_data)
-    {:reply, new_data, new_data}
-  end
-
   def handle_call(:get_current_device, _from, %{current_device: current_device} = state) do
     {:reply, current_device, state}
   end
@@ -67,7 +36,7 @@ defmodule VolumeKnob.VolumeState do
   end
 
   def terminate(reason, _state) do
-    Logger.error("exiting RuntimeConfig.State due to #{inspect(reason)}")
+    Logger.error("exiting VolumeState due to #{inspect(reason)}")
   end
 
   defp flush(state) do

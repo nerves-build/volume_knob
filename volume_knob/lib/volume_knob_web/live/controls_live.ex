@@ -6,7 +6,7 @@ defmodule VolumeKnobWeb.ControlsLive do
   alias VolumeKnob.VolumeState
 
   def render(assigns) do
-    Phoenix.View.render(VolumeKnobWeb.PageView, "_controls.html", assigns)
+    Phoenix.View.render(VolumeKnobWeb.PageView, "controls.html", assigns)
   end
 
   def mount(%{}, socket) do

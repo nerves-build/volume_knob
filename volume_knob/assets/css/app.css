@@ -130,11 +130,6 @@ select.form-control {
   flex-grow: 0;
 }
 
-.slidecontainer {
-  width: 100%;
-  /* Width of the outside container */
-}
-
 /* The slider itself */
 .slider {
   -webkit-appearance: none;
