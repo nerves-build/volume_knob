@@ -47,7 +47,7 @@ defmodule VolumeKnob.Device do
     {:noreply, state}
   end
 
-  def handle_info({:discovered, _new_device}, state) do
+  def handle_info({:discovered, %SonosDevice{uuid: uuid}}, state) do
     Tlc59116.set_mode(:normal)
     {:noreply, state}
   end

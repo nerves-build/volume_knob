@@ -33,7 +33,6 @@ defmodule VknobFw.Device do
         state
       ) do
     Tlc59116.set_mode(:cylon)
-    Sonex.discover()
 
     {:noreply, state}
   end
@@ -47,13 +46,7 @@ defmodule VknobFw.Device do
     {:noreply, state}
   end
 
-  def handle_info({VintageNet, name, old_value, new_value, metadata}, state) do
-    Logger.error(
-      "the VintageNet event name is #{inspect(name)} - #{inspect(old_value)} - #{
-        inspect(new_value)
-      } - #{inspect(metadata)}"
-    )
-
+  def handle_info({VintageNet, _name, _old_value, _new_value, _metadata}, state) do
     {:noreply, state}
   end
 
