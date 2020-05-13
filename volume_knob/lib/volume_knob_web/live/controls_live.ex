@@ -10,15 +10,16 @@ defmodule VolumeKnobWeb.ControlsLive do
   end
 
   def mount(%{}, socket) do
-    {:ok, _pid} = Registry.register(Sonex, "devices", [])
+    if connected?(socket),
+      do: {:ok, _pid} = Registry.register(Sonex, "devices", [])
 
-    {:ok, decorate_socket(socket)}
+    {:ok, add_sonex_info(socket)}
   end
 
   def handle_event("validate", %{"current" => current}, socket) do
     VolumeState.set_current_device(current)
 
-    {:noreply, decorate_socket(socket)}
+    {:noreply, add_sonex_info(socket)}
   end
 
   def handle_event("pause-device", %{"uuid" => uuid}, socket) do
@@ -46,14 +47,14 @@ defmodule VolumeKnobWeb.ControlsLive do
   end
 
   def handle_info({:discovered, _new_device}, socket) do
-    {:noreply, decorate_socket(socket)}
+    {:noreply, add_sonex_info(socket)}
   end
 
   def handle_info({:updated, _new_device}, socket) do
-    {:noreply, decorate_socket(socket)}
+    {:noreply, add_sonex_info(socket)}
   end
 
-  defp decorate_socket(socket) do
+  defp add_sonex_info(socket) do
     current_device = VolumeState.get_current_device()
 
     {players, current_player} =

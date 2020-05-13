@@ -27,21 +27,15 @@ defmodule VolumeKnob.Device do
     {:noreply, state}
   end
 
-  def handle_info({:click, %{type: :down}}, state) do
-    {:noreply, state}
-  end
-
   def handle_info({:travel, %{direction: :cw}}, state) do
-    VolumeState.get_current_device()
-    |> Sonex.get_player()
+    get_current_player
     |> increment_volume(3)
 
     {:noreply, state}
   end
 
   def handle_info({:travel, %{direction: :ccw}}, state) do
-    VolumeState.get_current_device()
-    |> Sonex.get_player()
+    get_current_player()
     |> increment_volume(-3)
 
     {:noreply, state}
@@ -53,25 +47,18 @@ defmodule VolumeKnob.Device do
   end
 
   def handle_info({:updated, _new_device}, state) do
-    VolumeState.get_current_device()
-    |> Sonex.get_player()
-    |> case do
-      nil ->
-        :ok
-
+    case get_current_player() do
       %{player_state: %{volume: %{m: vol}}} ->
-        vol
-        |> String.to_integer()
-        |> Tlc59116.set_value()
-
-        Tlc59116.set_mode(:normal)
-
-        :ok
+        Tlc59116.set_value(vol)
 
       _other ->
         :ok
     end
 
+    {:noreply, state}
+  end
+
+  def handle_info({:click, %{type: :down}}, state) do
     {:noreply, state}
   end
 
@@ -85,6 +72,11 @@ defmodule VolumeKnob.Device do
       e in HTTPoison.Error ->
         Logger.error("increment_volume error #{inspect(e)}")
     end
+  end
+
+  defp get_current_player do
+    VolumeState.get_current_device()
+    |> Sonex.get_player()
   end
 
   defp toggle_playing(nil), do: :noop
