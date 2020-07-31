@@ -24,10 +24,6 @@ defmodule VknobFw.Device do
     {:noreply, state}
   end
 
-  def handle_info({VintageNet, ["interface", _, _, "access_points"], _, _, _metadata}, state) do
-    {:noreply, state}
-  end
-
   def handle_info(
         {VintageNet, ["interface", _, "connection"], _, :internet, _metadata},
         state
@@ -43,6 +39,10 @@ defmodule VknobFw.Device do
       ) do
     Tlc59116.set_mode(:sparkle)
 
+    {:noreply, state}
+  end
+
+  def handle_info({VintageNet, ["interface", _, _, "access_points"], _, _, _metadata}, state) do
     {:noreply, state}
   end
 
