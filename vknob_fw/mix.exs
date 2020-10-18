@@ -39,27 +39,20 @@ defmodule VknobFw.MixProject do
   defp deps do
     [
       # Dependencies for all targets
-      {:nerves, "~> 1.6.0", runtime: false, targets: @all_targets},
+      {:nerves, "~> 1.6.3", runtime: false},
       {:shoehorn, "~> 0.6"},
-      {:ring_logger, "~> 0.6"},
+      {:ring_logger, "~> 0.8.1"},
       {:toolshed, "~> 0.2"},
       {:sweet_xml, "~> 0.6"},
       {:volume_knob, path: "../volume_knob"},
       # Dependencies for all targets except :host
-      {:nerves_runtime, "~> 0.6"},
-      {:nerves_pack, "~> 0.3"},
-      {:vintage_net_wizard, "~> 0.2"},
+      {:nerves_runtime, "~> 0.11.3", targets: @all_targets},
+      {:nerves_pack, "~> 0.4.0", targets: @all_targets},
+      {:vintage_net_wizard, "~> 0.1", targets: @all_targets},
       # {:vintage_net_wizard, git: "https://github.com/nerves-networking/vintage_net_wizard.git"},
 
       # Dependencies for specific targets
-      {:nerves_system_rpi, "~> 1.12", runtime: false, targets: :rpi},
-      {:nerves_system_rpi0, "~> 1.12", runtime: false, targets: :rpi0},
-      {:nerves_system_rpi2, "~> 1.12", runtime: false, targets: :rpi2},
-      {:nerves_system_rpi3, "~> 1.12", runtime: false, targets: :rpi3},
-      {:nerves_system_rpi3a, "~> 1.12", runtime: false, targets: :rpi3a},
-      {:nerves_system_rpi4, "~> 1.12", runtime: false, targets: :rpi4},
-      {:nerves_system_bbb, "~> 2.7", runtime: false, targets: :bbb},
-      {:nerves_system_x86_64, "~> 1.12", runtime: false, targets: :x86_64}
+      {:nerves_system_rpi0, "== 1.12.0", runtime: false, targets: :rpi0}
     ]
   end
 

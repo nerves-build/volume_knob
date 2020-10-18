@@ -28,7 +28,7 @@ defmodule VolumeKnob.Device do
   end
 
   def handle_info({:travel, %{direction: :cw}}, state) do
-    get_current_player
+    get_current_player()
     |> increment_volume(3)
 
     {:noreply, state}
@@ -41,7 +41,7 @@ defmodule VolumeKnob.Device do
     {:noreply, state}
   end
 
-  def handle_info({:discovered, %SonosDevice{uuid: uuid}}, state) do
+  def handle_info({:discovered, %SonosDevice{}}, state) do
     Tlc59116.set_mode(:normal)
     {:noreply, state}
   end

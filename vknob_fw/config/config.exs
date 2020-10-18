@@ -22,7 +22,7 @@ config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
 
 config :nerves_runtime, :kernel, use_system_registry: false
 
-config :nerves_firmware_ssh, authorized_keys: Enum.map(keys, &File.read!/1)
+config :nerves_ssh, authorized_keys: Enum.map(keys, &File.read!/1)
 
 config :volume_knob, VolumeKnobWeb.Endpoint,
   url: [host: "volumeknob.local", port: 80],
