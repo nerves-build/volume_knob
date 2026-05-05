@@ -1,7 +1,7 @@
 # volume_knob
 
 This is the companion source code for the blog post here:
-https://nerves.build/posts/VolumeKnob
+https://stwf.blog/posts/VolumeKnob
 
 
 ## Running in host mode
